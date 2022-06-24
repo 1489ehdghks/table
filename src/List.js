@@ -1,8 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { render } from 'react-dom';
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
-import DetailPage from './DetailPage';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import 'ag-grid-community/dist/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'; // Optional theme CSS
 
@@ -12,7 +9,7 @@ const List = () => {
     const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
     // Each Column Definition results in one Column.
     const [columnDefs, setColumnDefs] = useState([
-        { field: 'container', filter: true },
+        { field: 'container', filter: true, headerCheckboxSelection: true, checkboxSelection: true, },
         { field: 'create', filter: true },
         { field: 'owner', filter: true },
         { field: 'podName', filter: true },
@@ -29,8 +26,6 @@ const List = () => {
 
     // Example of consuming Grid Event
     const cellClickedListener = useCallback(event => {
-        console.log('podName', event.data.podName);
-        console.log('projectName', event.data.projectName)
         window.location.href = "/view/" + event.data.projectName + "/" + event.data.podName;
 
         // fetch('/api/' + event.data.projectName + '/' + event.data.podName + '/details')
@@ -53,10 +48,7 @@ const List = () => {
 
     return (
         <div>
-            {/* Example using Grid's API */}
-            <button onClick={buttonListener}>Push Me</button>
 
-            {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
             <div className="ag-theme-alpine" style={{ width: "100%", height: 500 }}>
 
                 <AgGridReact
